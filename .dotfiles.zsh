@@ -1,7 +1,7 @@
 #!/usr/bin/zsh
 # curl -L "<git url here>" | exec zsh
 
-GITREPO="/home/test/dotfiles/.dotfiles"
+GITREPO="https://github.com/3ed/dotfiles.git"
 
 msg() {
 	printf "\e[32;1m==> \e[0;1m%s...\e[0m\n" "$1"
