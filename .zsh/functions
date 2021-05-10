@@ -1,0 +1,44 @@
+#!/usr/bin/zsh
+
+command_not_found_handler() {
+	local pkgs cmd="$1"
+	pkgs=(${(f)"$(pkgfile -b -- "$cmd" 2>/dev/null)"})
+	if [ "${#pkgs[@]}" -gt "0" ]; then
+		printf -- "\nUwaga: aplikacja „%s” nie jest zainstalowana, plik wykonywalny\no takiej nazwie znajduje się w pakietach:\n\n" "$cmd"
+		for i in "${pkgs[@]}"; do
+			printf -- "\t* %s\n" "$i"
+		done
+	else
+		printf -- "%s: nieznane polecenie..." "$cmd"
+	fi
+
+	printf -- "\n"
+	return 127
+}
+
+mcd() { mkdir -p "$@"; cd "$@"; }
+
+# sep_www_kas() {
+#   local _action="${1:-"start"}"
+
+#   xhost +local:kas
+#   (cd /sep/www_kas && DISPLAY="$DISPLAY" PATH="/sep/bin/" /usr/bin/sudo -u sep_www_kas -g kas /sep/bin/start_sep_www_kas "${_action}")
+#   xhost -local:kas
+# }
+
+
+#notyfier
+# "$HOME/datenotify" list
+
+
+if [ -z "$DISPLAY" ]; then
+	[ -r "$HOME/.zsh/functions.d/xorg" ] \
+		&& source "$HOME/.zsh/functions.d/xorg"
+else
+	[ -f "$HOME/.zsh/functions.d/linux" ] \
+		&& source "$HOME/.zsh/functions.d/linux"
+fi
+
+for i in "$HOME/.zsh/functions.d/"*.zsh; do
+	source "$i"
+done

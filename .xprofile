@@ -1,0 +1,81 @@
+# fucking bash is wothless
+
+anystr() {
+    if [ "$#" -le "0" ]; then
+        echo 'USAGE: anystr "str" "${array_of_regexps[@]}"'
+        echo 'DESC:  string is equal to one or more?'
+        return 0
+    fi
+    perl \
+        -MList::MoreUtils=any \
+        -e 'my $str = shift;
+            exit ! any { $str =~ /$_/ } @ARGV' \
+        "$@"
+
+    return $?
+}
+export -f anystr
+
+any() {
+    if [ "$#" -le "0" ]; then
+        echo 'USAGE: any "${array[@]}" "regexp"'
+        echo 'DESC:  array have regexp? (one or more)'
+        return 0
+    fi
+    perl \
+        -MList::MoreUtils=any \
+        -e 'my $search = pop;
+            exit ! any { $_ =~ /$search/ } @ARGV' \
+        "$@"
+
+    return $?
+}
+export -f any
+
+
+anystr2() {
+    local needle="$1"; shift
+
+    while [-n "$1"]; do
+        expr match "$needle" "$1" && return 0
+        shift
+    done
+    return 1
+}
+export -f anystr2
+#----------------------------------------------------------------------
+# Exporting variables
+#----------------------------------------------------------------------
+#
+#export STEAM_RUNTIME=0
+
+export BROWSER="firefox"
+
+export GDK_USE_XFT=1
+export QT_XFT=true
+
+# this will make that themes from kde will be used in qt apps (stupid monkeys)
+# this will broke xdg-open
+#export XDG_CURRENT_DESKTOP=KDE
+QT_QPA_PLATFORMTHEME=qt5ct
+
+export SWEETHOME3D_JAVA3D=1.5
+
+# ??? layout hardware? user.js
+# export MOZ_USE_OMTC=1
+
+if  anystr "$DESKTOP_SESSION" \
+    "^i3"
+then
+    seahorse-daemon
+    eval $(gnome-keyring-daemon)
+    export SSH_AUTH_SOCK GNOME_KEYRING_CONTROL
+fi
+
+# a) wait befor repeating
+# b) wait between repeating
+#           a*  b*
+xset r rate 225 37
+
+numlockx on
+sxhkd &

@@ -1,0 +1,17 @@
+if [ "$UID" = "0" ]; then
+  prompt_user_color=1
+  prompt_user_char="$"
+  [[ -o login ]] \
+  	&& [[ ! "$(tty)" =~ "^/dev/pts/[0-9]+$" ]] \
+  	&& declare -x -r TMOUT=300
+else
+  prompt_user_color=2
+  prompt_user_char="#"
+fi
+
+PS1="
+%B%K{0}-->[ %F{${prompt_user_color}}%n %F{3}J:%j C:%i E:%? %F{5}%D{%d %a} %D{%H:%M:%S} %F{6}%~ %f]%k%b
+%K{17}%F{${prompt_user_color}}${prompt_user_char} %k%f"
+PS2="%K{17}%F{${prompt_user_color}}>   %k%f"
+PS3="%K{17}%F{${prompt_user_color}}>     %k%f"
+unset prompt_user_color prompt_user_char

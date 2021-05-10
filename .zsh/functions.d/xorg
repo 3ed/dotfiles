@@ -1,0 +1,7 @@
+if [ "$UID" = 0 ]; then
+  precmd()  { print -Pn "\e]0;{R} %~\a" }
+  preexec() { print -Pn "\e]0;{R}[C]: $1\a" }
+else
+  precmd()  { print -Pn "\e]0;%~\a" }
+  preexec() { print -Pn "\e]0;[C]: $1\a" }
+fi

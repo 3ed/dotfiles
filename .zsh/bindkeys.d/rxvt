@@ -1,0 +1,4 @@
+bindkey '^[[7~' beginning-of-line #HOME
+bindkey '^[[8~' end-of-line #END
+#bindkey '^[1;5C' forward-word  # nie działa - ctrl prawo, skacze o słowo
+#bindkey '^[1;5D' backward-word # nie działa - ctrl lewo, skacze o słowo

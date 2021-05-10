@@ -1,0 +1,110 @@
+# Skróty poleceń
+alias mv='nocorrect mv -iv'
+alias cp='nocorrect cp -iv'
+alias rm='nocorrect rm -iv'
+alias ln='nocorrect ln -iv'
+alias mkdir='nocorrect mkdir -pv'
+alias df="df -hT"
+alias @=$EDITOR
+alias M='PKGEXT=".pkg.tar" makepkg'
+alias diff='LC_ALL=C TZ=UTC0 /usr/bin/diff -Naur'
+alias vi=nvim
+alias vim=nvim
+alias j=jobs
+
+alias ls='ls --color=auto --human-readable --group-directories-first --classify'
+alias lst='ls -l --sort=time -r'
+alias dubig="du -shc -- .* *|sort -h"
+alias ls_new="ls -rl *(D.om[1,10])" # ???
+alias grep='/usr/bin/grep --color=auto --exclude="*~"'
+alias grepw='/usr/bin/grep -Iwsin --color=auto --exclude="*~"'
+alias egrep='/usr/bin/egrep --color=auto'
+alias cat_hl="highlight -O xterm256"
+alias top="/usr/bin/glances"
+
+alias dosbox-fs='dosbox -fullscreen'
+alias nethogs='sudo nethogs'
+alias BEEP='(aplay $HOME/.sounds.BEEP.wav &) > /dev/null 2>&1'
+
+alias whereisbin="perl -e '"'$\="\n"; foreach(split /:/, $ENV{PATH}) { $_ .= "/".$ARGV[0]; -f and -x and print and exit 0 } exit 1'"'"
+
+
+alias ytv="youtube-dl --add-metadata -ic"
+alias yta="youtube-dl --add-metadata -xic"
+
+
+aur_get_owned() {
+	test -n "$1" && git clone "ssh://aur@aur.archlinux.org/$1.git"
+}
+
+aur_get() {
+	test -n "$1" && git clone "https://aur.archlinux.org/$1.git"
+}
+
+# powiązanie rozszerzeń z działaniem/programem
+#alias -s tex=nvim
+#alias -s txt=nvim
+
+alias -s avi=mpv
+alias -s mpg=mpv
+alias -s flv=mpv
+alias -s mpeg=mpv
+alias -s rmvb=mpv
+alias -s mkv=mpv
+alias -s mp4=mpv
+alias -s log='tail -f'
+
+alias -s exe=winejail
+
+#alias "DVD-format-fast"='dvd+rw-format /dev/dvd'
+#alias "DVD-format"='growisofs -speed=4 -Z /dev/sr0=/dev/zero'
+#alias "DVD-rwcreate"='growisofs -speed=4 -Z /dev/dvd -R -J -pad'
+#alias "DVD-rwappend"='growisofs -speed=4 -M /dev/dvd -R -J -pad'
+#alias "DVD-dvdcompat"='growisofs -speed=4 -dvd-compat -Z /dev/sr0 -r -J '
+#alias "CD-rw-format-fast"='wodim blank=fast'
+#alias "CD-alias-to-burn"='burn'
+
+alias "netstat-listen"='sudo netstat -ptune -l'
+alias "netstat-estabilished"='sudo netstat -ptune'
+alias "netstat-sockets"='sudo netstat -nx'
+alias "netstat-iproute"='sudo netstat -nr'
+alias "netstat-statistic"='sudo netstat -ns'
+
+alias yaourt='/usr/bin/nice -n 10 -- /usr/bin/ionice -n 3 -- /usr/bin/yaourt'
+alias pacdiff="sudo DIFFPROG=meld /usr/bin/pacdiff"
+
+alias dotf="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+alias dotfiles=dotf
+
+
+
+alias S="trizen -S"
+alias Ss="trizen -Ss"
+alias U="sudo pacman -Syu"
+alias Ua="trizen -Syua"
+alias Up="cpan-outdated -p | cpm install -g -"
+alias c="code ."
+alias ga="git add"
+alias gaa="git add -A"
+alias gco="git commit -m"
+
+
+compdef dotf=git
+compdef dotfiles=git
+
+alias local-lib-ls="(cd ~/perl5/lib/perl5/x86_64-linux-thread-multi/auto/ && find -name '.packlist' -type f -print0 | perl -n0E 'if (s|^\\./(.*)/\\.packlist\\0|\$1|) { s|/|::|g; say }')"
+
+# command output coloring with grc
+if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
+
+	cmds_excluded="ls"
+	cmds=(`perl -n -E '(m/^conf\.([\w]+)/ && print "$1 ") unless m|'"$cmds_excluded"'|' /etc/grc.conf`)
+
+	for cmd in $cmds ; do
+		if (( $+commands[$cmd] )) ; then
+			alias $cmd="/usr/bin/grc --colour=auto $(whence $cmd)"
+		fi
+	done
+
+	unset cmds cmd cmds_excluded
+fi

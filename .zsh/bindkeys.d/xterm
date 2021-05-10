@@ -1,0 +1,8 @@
+bindkey '\e[H'    beginning-of-line #HOME
+bindkey '\e[F'    end-of-line #END
+#bindkey '^[1;5C' forward-word  # nie działa - ctrl prawo, skacze o słowo
+#bindkey '^[1;5D' backward-word # nie działa - ctrl lewo, skacze o słowo
+bindkey -s '^[OP' "man " # F1
+bindkey -s '^[OQ' "echo menu" # F2
+bindkey -s '^[OR' "mc" # F3
+bindkey -s '^[OS' "$DITOR " # F4

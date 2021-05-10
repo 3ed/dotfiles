@@ -1,0 +1,46 @@
+#!/usr/bin/zsh
+
+zinit light Aloxaf/fzf-tab
+
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+
+#source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+zinit light zdharma/fast-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light Tarrasch/zsh-bd
+zinit light popstas/zsh-command-time
+zinit light peterhurford/up.zsh
+
+# If command execution time above min. time, plugins will not output time.
+ZSH_COMMAND_TIME_MIN_SECONDS=10
+
+# Message to display (set to "" for disable).
+ZSH_COMMAND_TIME_MSG="### time: %s"
+
+# Message color.
+ZSH_COMMAND_TIME_COLOR="cyan"
+
+# Exclude some commands
+ZSH_COMMAND_TIME_EXCLUDE=(vim nvim man mc mcedit nano perldoc)
+
+
+zinit light seletskiy/zsh-favorite-directories
+
+favorite-directories:get() {
+	echo blog 1 ~/projekty/Blog/
+	echo torrenty 1 ~/Pobrane/Torrenty/
+    echo projekty 1 ~/projekty/
+}
+
+bindkey '^_' "favorite-directories:cd"

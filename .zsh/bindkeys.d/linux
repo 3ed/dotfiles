@@ -1,0 +1,6 @@
+bindkey '^[[1~' beginning-of-line # HOME
+bindkey '^[[4~' end-of-line # END
+bindkey -s '^[[[A' "man " # F1
+bindkey -s '^[[[B' "#menu" # F2
+bindkey -s '^[[[C' "mc" # F3
+bindkey -s '^[[[D' "$EDITOR " # F4
